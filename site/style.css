@@ -103,6 +103,9 @@ html[lang='zh-CN'] body { font-family: 'Inter', 'Microsoft YaHei UI', 'PingFang 
 .btn.primary { background: var(--blue); color: #fff; }
 .btn.primary:hover { background: var(--blue-hover); }
 .btn.ghost { color: var(--ink-2); border: 1px solid var(--line); }
+.store-badge { display: inline-flex; border-radius: 6px; }
+.store-badge img { height: 48px; width: auto; display: block; }
+.store-badge:hover { filter: brightness(1.15); }
 .btn.coffee { background: #ffdd00; color: #1d1d1f; font-weight: 600; }
 .btn.coffee:hover { filter: brightness(0.97); }
 

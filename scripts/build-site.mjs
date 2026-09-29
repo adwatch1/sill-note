@@ -31,6 +31,8 @@ function render(tpl, lang, page) {
   })
   // İpucu yazıları (title) da sözlükten: data-i18n-title="anahtar" → title="…"
   html = html.replace(/data-i18n-title="([^"]+)"/g, (m, key) => `title="${esc(d[key] ?? T.en[key] ?? '')}"`)
+  // Görsellerin alt yazısı da (ör. mağaza rozeti): data-i18n-alt="anahtar" alt="…" → alt="çeviri"
+  html = html.replace(/data-i18n-alt="([^"]+)" alt="[^"]*"/g, (m, key) => `alt="${esc(d[key] ?? T.en[key] ?? '')}"`)
   // 2) Ekran görüntüleri: Türkçe sayfada Türkçe arayüzlü set, diğerlerinde İngilizce.
   html = html.replace(/src="img\/([\w-]+)\.png" data-tr="img\/[\w-]+-tr\.png"/g, (m, n) =>
     lang === 'tr' ? `src="img/${n}-tr.png"` : `src="img/${n}.png"`)
