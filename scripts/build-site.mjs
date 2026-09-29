@@ -4,6 +4,7 @@
 // Kullanım: npm run site
 import { mkdirSync, readFileSync, writeFileSync } from 'fs'
 import { join } from 'path'
+import { createHash } from 'crypto'
 
 const BASE = 'https://www.sillnote.store/'
 const LANGS = [
@@ -15,6 +16,8 @@ const SEO = JSON.parse(readFileSync('site-src/seo.json', 'utf8'))
 const PAGES = ['index.html', 'privacy.html']
 // Sitede görünen sürüm programla aynı kaynaktan gelir: her yeni sürümde elle güncellemek gerekmez.
 const VERSION = JSON.parse(readFileSync('package.json', 'utf8')).version
+// Stil dosyasının adresine içeriğinin özeti eklenir: dosya değişince adres de değişir, tarayıcı eski kopyayı kullanmaz.
+const CSS_V = createHash('md5').update(readFileSync('site/style.css')).digest('hex').slice(0, 8)
 
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;')
 const dir = (lang) => (lang === 'en' ? '' : `${lang}/`)
@@ -64,7 +67,7 @@ function render(tpl, lang, page) {
   const options = LANGS.map(([l, name]) =>
     `<option value="${root}${dir(l)}${isIndex ? '' : page}"${l === lang ? ' selected' : ''} lang="${l}">${name}</option>`).join('')
   const vars = {
-    lang, root, hreflang, jsonld, langOptions: options, version: VERSION,
+    lang, root, hreflang, jsonld, langOptions: options, version: VERSION, cssv: CSS_V,
     title: esc(isIndex ? seo.title : seo.privTitle),
     desc: esc(isIndex ? seo.desc : seo.privDesc),
     keywords: esc(seo.keywords),
