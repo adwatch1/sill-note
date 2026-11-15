@@ -3,13 +3,15 @@
 import { isLangPref, type LangPref } from './i18n'
 
 export type ThemeMode = 'system' | 'light' | 'dark'
+/** Panelin yaşadığı ekran kenarı. Sol seçilince panel aynalanır (alt başlık sütunu sağa geçer). */
+export type PanelSide = 'right' | 'left'
 
 export interface Settings {
   version: 1
   theme: ThemeMode
-  /** Görünen panelin genişliği (px). Panelin sol kenarından sürüklenerek de değişir. */
+  /** Görünen panelin genişliği (px). Panelin ekranın ortasına bakan kenarından sürüklenerek de değişir. */
   panelWidth: number
-  /** Soldaki alt başlık sütununun genişliği (px). Aradaki dikey çizgiden sürüklenir. */
+  /** Alt başlık sütununun genişliği (px). Aradaki dikey çizgiden sürüklenir. */
   subtabWidth: number
   /** Tetik bölgesinin boyu: ekran yüksekliğinin ortadaki kesri (0.45 = orta %45). */
   triggerZone: number
@@ -46,6 +48,15 @@ export interface Settings {
    * özelliği). Kamera veya yakalama kartına karşı koruma değildir.
    */
   hideFromCapture: boolean
+  /** Panel hangi kenardan açılsın. */
+  side: PanelSide
+  /**
+   * Günde bir kez yeni sürüm var mı diye bakılsın mı (sadece mağaza dışı sürüm). YouTube önizlemesinden
+   * sonra programın internete çıktığı ikinci yer; kapatılabilir.
+   */
+  checkUpdates: boolean
+  /** "Bu sürümde yenilikler" en son hangi sürüm için gösterildi. '' = hiç (eski sürümden gelen kullanıcı). */
+  lastSeenVersion: string
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -65,7 +76,10 @@ export const DEFAULT_SETTINGS: Settings = {
   pauseInFullscreen: true,
   subtabsHidden: false,
   opacity: 1,
-  hideFromCapture: false
+  hideFromCapture: false,
+  side: 'right',
+  checkUpdates: true,
+  lastSeenVersion: ''
 }
 
 export const LIMITS = {
@@ -106,7 +120,11 @@ export function sanitizeSettings(v: unknown): Settings {
     subtabsHidden: typeof o.subtabsHidden === 'boolean' ? o.subtabsHidden : d.subtabsHidden,
     // Kaydırıcı adımları kayan noktada 0.8500000001 gibi kalmasın.
     opacity: Math.round(clamp(o.opacity, LIMITS.opacity.min, LIMITS.opacity.max, d.opacity) * 100) / 100,
-    hideFromCapture: typeof o.hideFromCapture === 'boolean' ? o.hideFromCapture : d.hideFromCapture
+    hideFromCapture: typeof o.hideFromCapture === 'boolean' ? o.hideFromCapture : d.hideFromCapture,
+    side: o.side === 'left' || o.side === 'right' ? o.side : d.side,
+    checkUpdates: typeof o.checkUpdates === 'boolean' ? o.checkUpdates : d.checkUpdates,
+    lastSeenVersion:
+      typeof o.lastSeenVersion === 'string' && o.lastSeenVersion.length <= 20 ? o.lastSeenVersion : d.lastSeenVersion
   }
 }
 

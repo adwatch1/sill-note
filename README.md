@@ -13,12 +13,14 @@ Move your mouse to the right edge and a panel slides in, over any window. Move a
 
 ## Features
 
-- **Edge trigger.** Rest the mouse on the middle of the right screen edge, or press `Ctrl + Alt + N`.
+- **Edge trigger.** Rest the mouse on the middle of the right screen edge, or press `Ctrl + Alt + N`. Prefer the left edge? Settings → Opening → Screen edge.
 - **Two levels of tabs.** Topics across the top, notes on the left. Color, rename and reorder them.
 - **Notes that save themselves.** No save button.
 - **Images.** Drag and drop, paste with `Ctrl + V`, or right-click → Add image.
 - **Audio & voice notes.** Drop audio files, or record from your microphone with a live waveform.
 - **YouTube cards.** Paste a YouTube link and it becomes a card with the thumbnail and title.
+- **Checklists.** While typing, one click turns lines into ☐ boxes; click a box to tick it.
+- **Automatic updates.** The downloaded version tells you when a new version is out and installs it in one click (the Store version updates through the Store).
 - **10 languages.** Follows your Windows language automatically.
 - **Hide from screen sharing.** One switch and Sill Note disappears from screen recordings, screen sharing (Zoom, Teams, Discord, OBS) and screenshots — while you still see it.
 - **Opacity.** Make the panel background see-through (60–100 %); text and images stay sharp.
@@ -29,6 +31,7 @@ Move your mouse to the right edge and a panel slides in, over any window. Move a
 |---|---|
 | ![](screenshots/02-media.png) | ![](screenshots/03-voice.png) |
 | ![](screenshots/04-tabs.png) | ![](screenshots/05-private.png) |
+| ![](screenshots/06-checklist.png) | ![](screenshots/07-left-edge.png) |
 
 ## Install
 
@@ -36,7 +39,7 @@ Download `SillNote-Setup.exe` from [Releases](../../releases/latest) and run it 
 
 ## Privacy
 
-Your notes, images, audio and settings stay only on your computer. Sill Note goes online in one case only: when you paste a YouTube link, it downloads that video’s thumbnail and title once (you can turn this off in Settings → Privacy). The microphone is used only while you record. [Privacy policy](https://www.sillnote.store/privacy.html)
+Your notes, images, audio and settings stay only on your computer. Sill Note goes online in two cases only, and you can turn off both in Settings → Privacy: when you paste a YouTube link, it downloads that video’s thumbnail and title once; and the downloaded version asks GitHub once a day whether there’s a new version (the Microsoft Store version doesn’t). Your notes are never sent. The microphone is used only while you record. [Privacy policy](https://www.sillnote.store/privacy.html)
 
 ## Support
 

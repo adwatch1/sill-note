@@ -15,6 +15,18 @@
   transform-origin: right center;
 }
 
+/* Sol kenar: gölge payı ekranın ortasına bakan tarafta (sağda) olsun, küçülme o kenara doğru. */
+.panel[data-side='left'] {
+  left: var(--panel-pad-edge);
+  right: var(--panel-pad-shadow);
+  transform-origin: left center;
+}
+
+/* Aynalı yerleşim: alt başlık sütunu sağa, not sola. */
+.panel[data-side='left'] .body {
+  flex-direction: row-reverse;
+}
+
 .body {
   position: relative; /* sütun genişletme tutamağı buna göre konumlanıyor */
   flex: 1;
@@ -27,12 +39,19 @@
 }
 
 .panel > header,
+.updateSlot,
 .empty {
   transition: opacity 0.15s ease;
 }
 
+/* Güncelleme şeridinin kabı: şerit yokken yer kaplamaz. */
+.updateSlot {
+  flex-shrink: 0;
+}
+
 /* Ayarlar açıkken altındaki sekmeler ve not görünmez: ayarlar ekranının kendi zemini yok. */
 .underSettings > header,
+.underSettings > .updateSlot,
 .underSettings > .body,
 .underSettings > .empty {
   opacity: 0;

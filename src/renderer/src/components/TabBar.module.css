@@ -196,3 +196,9 @@
 .sidebar {
   margin-left: -4px;
 }
+
+/* Aynalı hâli: düğme DOM'da başta ama görünüşte en sona geçer. */
+.sidebarEnd {
+  order: 1;
+  margin-right: -2px;
+}

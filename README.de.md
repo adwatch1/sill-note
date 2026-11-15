@@ -13,12 +13,14 @@ Bewege die Maus an den rechten Rand, und ein Panel gleitet über jedes Fenster. 
 
 ## Funktionen
 
-- **Randauslöser.** Maus in der Mitte des rechten Bildschirmrands ruhen lassen oder `Strg + Alt + N` drücken.
+- **Randauslöser.** Maus in der Mitte des rechten Bildschirmrands ruhen lassen oder `Strg + Alt + N` drücken. Lieber am linken Rand? Einstellungen → Öffnen → Bildschirmrand.
 - **Zwei Ebenen von Tabs.** Themen oben, Notizen links. Einfärben, umbenennen, neu anordnen.
 - **Notizen speichern sich selbst.** Kein Speichern-Knopf.
 - **Bilder.** Per Drag & Drop, mit `Strg + V` oder Rechtsklick → Bild hinzufügen.
 - **Audio & Sprachnotizen.** Audiodateien ablegen oder mit Live-Wellenform über das Mikrofon aufnehmen.
 - **YouTube-Karten.** YouTube-Link einfügen – er wird zur Karte mit Vorschaubild und Titel.
+- **Kontrollkästchen.** Beim Schreiben werden Zeilen mit einem Klick zu ☐-Kästchen; ein Klick auf das Kästchen hakt es ab.
+- **Automatische Updates.** Die heruntergeladene Version meldet neue Versionen und installiert sie mit einem Klick (die Store-Version aktualisiert sich über den Store).
 - **10 Sprachen.** Folgt automatisch deiner Windows-Sprache.
 - **Bei Bildschirmfreigabe ausblenden.** Ein Schalter, und Sill Note verschwindet aus Bildschirmaufnahmen, Bildschirmfreigaben (Zoom, Teams, Discord, OBS) und Screenshots – du siehst es weiterhin.
 - **Deckkraft.** Mach den Panel-Hintergrund durchsichtig (60–100 %); Text und Bilder bleiben scharf.
@@ -29,6 +31,7 @@ Bewege die Maus an den rechten Rand, und ein Panel gleitet über jedes Fenster. 
 |---|---|
 | ![](screenshots/02-media.png) | ![](screenshots/03-voice.png) |
 | ![](screenshots/04-tabs.png) | ![](screenshots/05-private.png) |
+| ![](screenshots/06-checklist.png) | ![](screenshots/07-left-edge.png) |
 
 ## Installation
 
@@ -36,7 +39,7 @@ Lade `SillNote-Setup.exe` unter [Releases](../../releases/latest) herunter und s
 
 ## Datenschutz
 
-Notizen, Bilder, Audio und Einstellungen bleiben nur auf deinem Computer. Sill Note geht nur in einem Fall online: Beim Einfügen eines YouTube-Links lädt es einmalig Vorschaubild und Titel (abschaltbar unter Einstellungen → Datenschutz). Das Mikrofon ist nur während der Aufnahme aktiv. [Datenschutzerklärung](https://www.sillnote.store/privacy.html)
+Notizen, Bilder, Audio und Einstellungen bleiben nur auf deinem Computer. Sill Note geht nur in zwei Fällen online, beide abschaltbar unter Einstellungen → Datenschutz: Beim Einfügen eines YouTube-Links lädt es einmalig Vorschaubild und Titel, und die heruntergeladene Version fragt einmal am Tag bei GitHub nach einer neuen Version (die Microsoft-Store-Version nicht). Deine Notizen werden nie gesendet. Das Mikrofon ist nur während der Aufnahme aktiv. [Datenschutzerklärung](https://www.sillnote.store/privacy.html)
 
 ## Unterstützen
 

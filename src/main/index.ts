@@ -21,6 +21,7 @@ import { initLightbox } from './lightbox'
 import { registerStorageIpc } from './storage'
 import { registerMediaIpc, registerMediaProtocol } from './media'
 import { registerYouTubeIpc } from './youtube'
+import { initUpdater, onUpdateSettingChanged } from './updater'
 import { flushSettings, getSettings, initSettings, updateSettings } from './settings'
 import { formatShortcut } from '../shared/settings'
 import { mt } from './i18n'
@@ -81,9 +82,11 @@ if (!app.requestSingleInstanceLock()) {
         applyContentProtection() // "ekran paylaşımında gizle" anında geçerli olsun
         refreshPause() // "tam ekranda duraklat" kapatıldıysa hemen devam et
         updateTrayMenu() // tepsi menüsündeki kısayol yazısı güncel kalsın
+        onUpdateSettingChanged() // "Güncellemeleri denetle" açıldı/kapandı
       }
     })
     createPanel({ onPauseChange: updateTrayMenu })
+    initUpdater({ flush: flushNotes })
     createTray()
     maybePlayIntro()
   })
@@ -117,7 +120,8 @@ if (!app.requestSingleInstanceLock()) {
 function maybePlayIntro(): void {
   if (getSettings().introShown) return
   if (!app.isPackaged && !process.env.SILL_FORCE_INTRO) return
-  updateSettings({ introShown: true }) // çökme olsa bile tekrarlamasın
+  // Yeni kurulum: "Bu sürümde yenilikler" gösterilmez (her şey zaten yeni); sürüm görülmüş sayılır.
+  updateSettings({ introShown: true, lastSeenVersion: app.getVersion() }) // çökme olsa bile tekrarlamasın
   playIntro()
 }
 

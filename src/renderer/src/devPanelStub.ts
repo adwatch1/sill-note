@@ -1,7 +1,7 @@
 // Sadece geliştirme: arayüz Electron dışında, düz tarayıcıda (http://localhost:5173) açılınca
 // arka plan köprüsü yoktur. Bu sahte köprü paneli hemen gösterir ve notları tarayıcı hafızasında
 // tutar ki tasarım tarayıcıda denenebilsin.
-import type { MediaApi, NotesApi, PanelApi, SettingsApi } from '../../preload'
+import type { MediaApi, NotesApi, PanelApi, SettingsApi, UpdatesApi } from '../../preload'
 import { DEFAULT_SETTINGS, sanitizeSettings } from '../../shared/settings'
 
 export function installDevPanelStub(): void {
@@ -73,7 +73,17 @@ export function installDevPanelStub(): void {
     openLightbox: () => {}
   }
 
+  // Tarayıcıda güncelleme yok.
+  const updates: UpdatesApi = {
+    get: async () => ({ mode: 'off', status: 'idle' }),
+    check: async () => {},
+    download: () => {},
+    dismiss: () => {},
+    onState: () => () => {}
+  }
+
   window.media = media
+  window.updates = updates
   window.panel = panel
   window.notes = notes
   window.settings = settings

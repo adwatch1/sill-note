@@ -13,12 +13,14 @@ Leve o mouse até a borda direita e um painel desliza sobre qualquer janela. Afa
 
 ## Recursos
 
-- **Gatilho na borda.** Deixe o mouse no meio da borda direita da tela ou pressione `Ctrl + Alt + N`.
+- **Gatilho na borda.** Deixe o mouse no meio da borda direita da tela ou pressione `Ctrl + Alt + N`. Prefere a borda esquerda? Configurações → Abertura → Borda da tela.
 - **Dois níveis de abas.** Temas no topo, notas à esquerda. Colora, renomeie e reorganize.
 - **Notas que se salvam sozinhas.** Sem botão de salvar.
 - **Imagens.** Arraste e solte, cole com `Ctrl + V` ou clique com o botão direito → Adicionar imagem.
 - **Áudio e notas de voz.** Solte arquivos de áudio ou grave pelo microfone com forma de onda ao vivo.
 - **Cartões do YouTube.** Cole um link do YouTube e ele vira um cartão com miniatura e título.
+- **Caixas de seleção.** Enquanto digita, um clique transforma linhas em caixas ☐; um clique na caixa a marca.
+- **Atualizações automáticas.** A versão baixada avisa quando sai uma versão nova e instala com um clique (a versão da loja se atualiza pela loja).
 - **10 idiomas.** Segue automaticamente o idioma do Windows.
 - **Ocultar no compartilhamento de tela.** Com um botão, o Sill Note some das gravações de tela, do compartilhamento de tela (Zoom, Teams, Discord, OBS) e das capturas — e você continua vendo.
 - **Opacidade.** Deixe o fundo do painel transparente (60–100%); texto e imagens continuam nítidos.
@@ -29,6 +31,7 @@ Leve o mouse até a borda direita e um painel desliza sobre qualquer janela. Afa
 |---|---|
 | ![](screenshots/02-media.png) | ![](screenshots/03-voice.png) |
 | ![](screenshots/04-tabs.png) | ![](screenshots/05-private.png) |
+| ![](screenshots/06-checklist.png) | ![](screenshots/07-left-edge.png) |
 
 ## Instalação
 
@@ -36,7 +39,7 @@ Baixe `SillNote-Setup.exe` em [Releases](../../releases/latest) e execute (não 
 
 ## Privacidade
 
-Suas notas, imagens, áudios e configurações ficam só no seu computador. O Sill Note só se conecta em um caso: ao colar um link do YouTube, baixa uma vez a miniatura e o título (dá para desativar em Configurações → Privacidade). O microfone só é usado durante a gravação. [Política de privacidade](https://www.sillnote.store/privacy.html)
+Suas notas, imagens, áudios e configurações ficam só no seu computador. O Sill Note só se conecta em dois casos, e dá para desativar os dois em Configurações → Privacidade: ao colar um link do YouTube, baixa uma vez a miniatura e o título; e a versão baixada pergunta ao GitHub uma vez por dia se há uma versão nova (a da Microsoft Store não). Suas notas nunca são enviadas. O microfone só é usado durante a gravação. [Política de privacidade](https://www.sillnote.store/privacy.html)
 
 ## Apoiar
 

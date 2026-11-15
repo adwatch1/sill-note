@@ -666,6 +666,12 @@ interface TextBlockProps {
   onContextMenu: (e: ReactMouseEvent<HTMLTextAreaElement>) => void
 }
 
+/** Yazı kutusunun boyunu içeriğine eşitle: önce sıfırla, sonra gerçek içerik boyuna ayarla. */
+function fitHeight(el: HTMLTextAreaElement): void {
+  el.style.height = 'auto'
+  el.style.height = `${el.scrollHeight}px`
+}
+
 /** Yazı bloğu: içeriği kadar uzayan yazı kutusu. Kaydırma artık notun tamamında. */
 function TextBlockEditor({
   at,
@@ -682,10 +688,33 @@ function TextBlockEditor({
   // Yazı uzayınca kutu da uzasın: önce sıfırla, sonra gerçek içerik boyuna ayarla.
   useLayoutEffect(() => {
     const el = ref.current
-    if (!el) return
-    el.style.height = 'auto'
-    el.style.height = `${el.scrollHeight}px`
+    if (el) fitHeight(el)
   }, [block.text])
+
+  // Satırlar yazı değişmeden de yeniden kırılabilir: not alanı daralıp genişleyince (panel kenarı,
+  // alt başlık sütunu) ve gömülü yazı tipi geç yüklenince (ilk açılışta ölçüm yedek yazı tipiyle
+  // yapılmış oluyor, son satır kesik kalıyordu). İkisinde de boy yeniden ölçülür.
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    let width = el.clientWidth
+    const ro = new ResizeObserver(() => {
+      // Sadece genişlik değişimi: boyu biz değiştiriyoruz, ona tepki verirsek döngüye gireriz.
+      if (el.clientWidth === width) return
+      width = el.clientWidth
+      fitHeight(el)
+    })
+    ro.observe(el)
+    const onFonts = (): void => fitHeight(el)
+    document.fonts.addEventListener('loadingdone', onFonts)
+    void document.fonts.ready.then(() => {
+      if (el.isConnected) fitHeight(el)
+    })
+    return () => {
+      ro.disconnect()
+      document.fonts.removeEventListener('loadingdone', onFonts)
+    }
+  }, [])
 
   useEffect(() => {
     onRegister(block.id, ref.current)

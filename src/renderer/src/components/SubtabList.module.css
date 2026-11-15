@@ -9,6 +9,12 @@
   min-height: 0;
 }
 
+/* Panel solda (aynalı): sütun sağda, çizgisi notla arasında kalsın. */
+:global([data-side='left']) .column {
+  border-right: none;
+  border-left: 0.5px solid var(--separator);
+}
+
 .list {
   flex: 1;
   display: flex;

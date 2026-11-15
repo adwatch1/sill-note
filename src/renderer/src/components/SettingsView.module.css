@@ -285,8 +285,12 @@
   cursor: default;
 }
 
-.button:hover {
+.button:hover:not(:disabled) {
   background: var(--hover);
+}
+
+.button:disabled {
+  opacity: 0.5;
 }
 
 /* ── Kısayol kaydedici ── */

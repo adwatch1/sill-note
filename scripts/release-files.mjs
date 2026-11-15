@@ -1,10 +1,11 @@
-// GitHub sürümüne yüklenecek üç dosyayı SABİT adlarla hazırlar (dist/release/):
+// GitHub sürümüne yüklenecek dosyaları SABİT adlarla hazırlar (dist/release/):
 //   SillNote-Setup.exe     kurulum
 //   SillNote-Setup.zip     aynı kurulum, ZIP içinde (.exe indirmeyi engelleyen tarayıcı / e-posta için)
 //   SillNote-Portable.zip  kurulumsuz sürüm: aç, Sill.exe'yi çalıştır
+//   latest.yml             otomatik güncellemenin okuduğu sürüm bilgisi (sürüm, dosya adı, SHA-512)
 // Sabit ad şart: sitedeki indirme linkleri ".../releases/latest/download/<ad>" ile hep son sürümü alır.
 // Kullanım: npm run dist → npm run release-files
-import { copyFileSync, cpSync, existsSync, mkdirSync, readFileSync, rmSync } from 'fs'
+import { copyFileSync, cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'fs'
 import { execFileSync } from 'child_process'
 import { join } from 'path'
 
@@ -20,6 +21,14 @@ rmSync(out, { recursive: true, force: true })
 mkdirSync(out, { recursive: true })
 
 copyFileSync(setup, join(out, 'SillNote-Setup.exe'))
+// Otomatik güncelleme: kurulu program yeni sürümü ".../releases/latest/download/latest.yml"den öğrenir.
+// electron-builder bu dosyayı sürüm numaralı kurulum adıyla yazar; biz sabit adla yüklediğimiz için
+// içindeki adı düzeltiyoruz. Dosyanın SHA-512 özeti içerikten hesaplandığı için ad değişikliği onu bozmaz.
+const yml = join('dist', 'latest.yml')
+if (!existsSync(yml)) throw new Error(`${yml} yok — package.json → build.publish ayarı silinmiş olabilir`)
+const fixed = readFileSync(yml, 'utf8').split(`SillNote-Setup-${version}.exe`).join('SillNote-Setup.exe')
+if (!fixed.includes(`version: ${version}`)) throw new Error('latest.yml sürümü package.json ile uyuşmuyor')
+writeFileSync(join(out, 'latest.yml'), fixed)
 // Windows'un kendi ZIP'leyicisi (ek paket gerekmesin)
 const zip = (path, dest) =>
   execFileSync('powershell', ['-NoProfile', '-Command', `Compress-Archive -Path '${path}' -DestinationPath '${dest}' -Force`])

@@ -40,3 +40,14 @@
 .columnEdge {
   left: calc(var(--subtab-width, 136px) - 4px);
 }
+
+/* Panel solda (aynalı): iki tutamak da karşı tarafa geçer. */
+:global([data-side='left']) .panelEdge {
+  left: auto;
+  right: -4px;
+}
+
+:global([data-side='left']) .columnEdge {
+  left: auto;
+  right: calc(var(--subtab-width, 136px) - 4px);
+}

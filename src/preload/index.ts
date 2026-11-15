@@ -3,6 +3,7 @@ import type { NotesData, SaveResult } from '../shared/notes'
 import type { Settings, SettingsResult } from '../shared/settings'
 import type { ImportResult } from '../shared/media'
 import type { YouTubePreview } from '../shared/youtube'
+import type { UpdateState } from '../shared/update'
 
 // Arayüzün (renderer) arka planla konuşabildiği tek kapı. Sadece burada tanımlı
 // işlemler yapılabilir; arayüz doğrudan diske veya sisteme erişemez (güvenlik).
@@ -111,7 +112,26 @@ const mediaApi = {
     ipcRenderer.send('lightbox:open', { att, ext, name })
 }
 
+const updatesApi = {
+  /** Güncelleme durumu (mod: kapalı / kurulu / taşınabilir). */
+  get: (): Promise<UpdateState> => ipcRenderer.invoke('update:get'),
+  /** Ayarlar'daki "Şimdi denetle". */
+  check: (): Promise<void> => ipcRenderer.invoke('update:check'),
+  /** "İndir ve kur" (taşınabilir sürümde siteyi açar). */
+  download: () => ipcRenderer.send('update:download'),
+  /** "Sonra": bir sonraki denetime kadar sus. */
+  dismiss: () => ipcRenderer.send('update:dismiss'),
+  onState: (cb: (s: UpdateState) => void) => {
+    const handler = (_e: unknown, s: UpdateState) => cb(s)
+    ipcRenderer.on('update:state', handler)
+    return () => {
+      ipcRenderer.removeListener('update:state', handler)
+    }
+  }
+}
+
 export type MediaApi = typeof mediaApi
+export type UpdatesApi = typeof updatesApi
 
 export type PanelApi = typeof panelApi
 export type NotesApi = typeof notesApi
@@ -121,3 +141,4 @@ contextBridge.exposeInMainWorld('panel', panelApi)
 contextBridge.exposeInMainWorld('notes', notesApi)
 contextBridge.exposeInMainWorld('settings', settingsApi)
 contextBridge.exposeInMainWorld('media', mediaApi)
+contextBridge.exposeInMainWorld('updates', updatesApi)

@@ -5,6 +5,7 @@ import { NotesProvider } from './store/notesStore'
 import { FOCUS_EDITOR_EVENT } from './components/NoteView'
 import type { Settings } from '../../shared/settings'
 import { setLanguagePref } from './i18n'
+import { version } from '../../../package.json'
 
 export function App() {
   const [visible, setVisible] = useState(false)
@@ -12,11 +13,13 @@ export function App() {
   const settingsOpenRef = useRef(false)
   settingsOpenRef.current = settingsOpen
   const [settings, setSettings] = useState<Settings | null>(null)
+  const [isStore, setIsStore] = useState(false)
 
   useEffect(() => {
     window.settings.get().then((r) => {
       setLanguagePref(r.settings.language)
       setSettings(r.settings)
+      setIsStore(r.isStore)
       panelWidthRef.current = r.settings.panelWidth
     })
   }, [])
@@ -65,6 +68,14 @@ export function App() {
     const r = await window.settings.set({ subtabsHidden: !(settings?.subtabsHidden ?? false) })
     setSettings(r.settings)
   }
+
+  // "Bu sürümde yenilikler": eski bir sürümden güncellenmiş kullanıcıya bir kez. Yeni kurulumda
+  // arka plan sürümü zaten "görüldü" yazıyor (introShown ile birlikte); örnek notlar yeterli tanıtım.
+  const whatsNewPending = !!settings && settings.introShown && settings.lastSeenVersion !== version
+  const dismissWhatsNew = useCallback(() => {
+    setSettings((s) => (s ? { ...s, lastSeenVersion: version } : s))
+    void window.settings.set({ lastSeenVersion: version })
+  }, [])
 
   const togglePin = async (): Promise<void> => {
     const r = await window.settings.set({ pinned: !(settings?.pinned ?? false) })
@@ -120,6 +131,9 @@ export function App() {
             subtabsHidden={settings.subtabsHidden}
             onToggleSubtabs={toggleSubtabs}
             opacity={settings.opacity}
+            side={settings.side}
+            whatsNew={whatsNewPending ? { version, isStore } : null}
+            onWhatsNewDone={dismissWhatsNew}
             // Ayarlar ekranındaki değişiklik (ör. opaklık) panele anında yansısın.
             onSettingsChange={setSettings}
           />

@@ -13,12 +13,14 @@ Fareyi sağ kenara götür, panel her pencerenin üstüne kayarak gelsin. Uzakla
 
 ## Özellikler
 
-- **Kenar tetiği.** Fareyi ekranın sağ kenarının ortasında beklet ya da `Ctrl + Alt + N`’ye bas.
+- **Kenar tetiği.** Fareyi ekranın sağ kenarının ortasında beklet ya da `Ctrl + Alt + N`’ye bas. Sol kenarı mı tercih edersin? Ayarlar → Açılma → Ekran kenarı.
 - **İki katlı sekmeler.** Üstte ana başlıklar, solda notlar. Renklendir, adlandır, sırala.
 - **Kendiliğinden kaydedilen notlar.** Kaydet düğmesi yok.
 - **Görseller.** Sürükle-bırak, `Ctrl + V` ile yapıştır ya da sağ tık → Görsel ekle.
 - **Ses ve sesli not.** Ses dosyası bırak ya da mikrofondan canlı dalgayla kaydet.
 - **YouTube kartları.** YouTube linki yapıştır, küçük resimli ve başlıklı karta dönüşsün.
+- **Tik kutusu.** Yazarken tek tıkla satırlar ☐ kutulu listeye döner; kutuya tıklayınca işaretlenir.
+- **Otomatik güncelleme.** İndirilen sürüm, yeni sürüm çıkınca haber verir ve tek tıkla kurar (mağaza sürümü mağazadan güncellenir).
 - **10 dil.** Windows’un dilini kendiliğinden takip eder.
 - **Ekran paylaşımında gizle.** Tek anahtarla Sill Note ekran kayıtlarından, ekran paylaşımından (Zoom, Teams, Discord, OBS) ve ekran görüntülerinden kaybolur — sen yine görürsün.
 - **Opaklık.** Panelin zeminini saydamlaştır (%60–100); yazı ve görseller net kalır.
@@ -29,6 +31,7 @@ Fareyi sağ kenara götür, panel her pencerenin üstüne kayarak gelsin. Uzakla
 |---|---|
 | ![](screenshots/tr/02-media.png) | ![](screenshots/tr/03-voice.png) |
 | ![](screenshots/tr/04-tabs.png) | ![](screenshots/tr/05-private.png) |
+| ![](screenshots/tr/06-checklist.png) | ![](screenshots/tr/07-left-edge.png) |
 
 ## Kurulum
 
@@ -36,7 +39,7 @@ Fareyi sağ kenara götür, panel her pencerenin üstüne kayarak gelsin. Uzakla
 
 ## Gizlilik
 
-Notların, görsellerin, seslerin ve ayarların sadece bilgisayarında kalır. Sill Note yalnızca tek bir durumda internete çıkar: YouTube linki yapıştırdığında o videonun küçük resmini ve başlığını bir kez indirir (Ayarlar → Gizlilik’ten kapatılabilir). Mikrofon sadece kayıt sırasında açıktır. [Gizlilik politikası](https://www.sillnote.store/privacy.html)
+Notların, görsellerin, seslerin ve ayarların sadece bilgisayarında kalır. Sill Note yalnızca iki durumda internete çıkar, ikisini de Ayarlar → Gizlilik’ten kapatabilirsin: YouTube linki yapıştırdığında o videonun küçük resmini ve başlığını bir kez indirir; indirilen sürüm de günde bir kez GitHub’a yeni sürüm olup olmadığını sorar (Microsoft Store sürümü sormaz). Notların hiçbir zaman gönderilmez. Mikrofon sadece kayıt sırasında açıktır. [Gizlilik politikası](https://www.sillnote.store/privacy.html)
 
 ## Destek
 

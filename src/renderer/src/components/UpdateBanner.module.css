@@ -1,0 +1,73 @@
+/* Kap: yükseklik animasyonu için taşma gizli. */
+.wrap {
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 10px 0;
+  padding: 7px 8px 7px 10px;
+  border-radius: var(--radius-control);
+  background: var(--accent-soft);
+  font-size: 12px;
+}
+
+.icon {
+  flex-shrink: 0;
+  color: var(--accent);
+}
+
+.text {
+  flex: 1;
+  min-width: 0;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.track {
+  height: 3px;
+  margin-top: 5px;
+  border-radius: 2px;
+  background: var(--surface-sunken);
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  border-radius: 2px;
+  background: var(--accent);
+  transition: width 0.2s ease;
+}
+
+.later,
+.primary {
+  flex-shrink: 0;
+  height: 24px;
+  padding: 0 10px;
+  border: none;
+  border-radius: 6px;
+  font: 500 12px var(--font);
+  cursor: default;
+}
+
+.later {
+  background: transparent;
+  color: var(--text-secondary);
+}
+
+.later:hover {
+  background: var(--hover);
+  color: var(--text);
+}
+
+.primary {
+  background: var(--accent);
+  color: #fff;
+}
+
+.primary:hover {
+  filter: brightness(1.08);
+}

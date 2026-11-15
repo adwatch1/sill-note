@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState, type RefObject } from 'react'
 import { AnimatePresence, Reorder, motion } from 'framer-motion'
-import { PanelLeft, Pin, Plus, Settings, X } from 'lucide-react'
+import { PanelLeft, PanelRight, Pin, Plus, Settings, X } from 'lucide-react'
 import { useNotes } from '../store/notesStore'
 import { isTabColor, type Tab, type TabColor } from '../../../shared/notes'
+import type { PanelSide } from '../../../shared/settings'
 import { itemEnter, itemExit, itemVisible, springSnappy } from '../motion'
 import { useHoldToDrag } from '../hooks/useHoldToDrag'
 import { EditableLabel } from './EditableLabel'
@@ -20,6 +21,8 @@ interface Props {
   onTogglePin: () => void
   subtabsHidden: boolean
   onToggleSubtabs: () => void
+  /** Panel solda: kenar çubuğu düğmesi sütunla birlikte sağ uca geçer. */
+  side: PanelSide
 }
 
 // Üstteki ana konular. Tıkla = seç · çift tıkla = yeniden adlandır · basılı tut + sürükle = sırala
@@ -31,7 +34,8 @@ export function TabBar({
   pinned,
   onTogglePin,
   subtabsHidden,
-  onToggleSubtabs
+  onToggleSubtabs,
+  side
 }: Props) {
   const { data, actions } = useNotes()
   const { t } = useI18n()
@@ -109,14 +113,15 @@ export function TabBar({
 
   return (
     <header className={styles.bar}>
-      {/* Kenar çubuğu düğmesi (macOS Finder/Notlar gibi) en solda: sütun gizliyken de yerinde durur. */}
+      {/* Kenar çubuğu düğmesi (macOS Finder/Notlar gibi) sütunun üstünde: normalde en solda, panel
+          soldayken (aynalı) en sağda. Sütun gizliyken de yerinde durur. */}
       <button
-        className={`${styles.add} ${styles.sidebar}`}
+        className={`${styles.add} ${side === 'left' ? styles.sidebarEnd : styles.sidebar}`}
         title={subtabsHidden ? t('tabs.showSubtabs') : t('tabs.hideSubtabs')}
         aria-pressed={!subtabsHidden}
         onClick={onToggleSubtabs}
       >
-        <PanelLeft size={16} strokeWidth={1.8} />
+        {side === 'left' ? <PanelRight size={16} strokeWidth={1.8} /> : <PanelLeft size={16} strokeWidth={1.8} />}
       </button>
       {/* ⚠️ İKİ KATMAN, bilerek: dıştaki kutu panelle birlikte büyür; tab'ların içinde
           durduğu ray ise içerik kadar geniştir (`width: max-content`), yani panel

@@ -13,12 +13,14 @@ Amenez la souris sur le bord droit : un panneau glisse par-dessus toutes les fen
 
 ## Fonctionnalités
 
-- **Déclenchement par le bord.** Laissez la souris au milieu du bord droit de l’écran ou appuyez sur `Ctrl + Alt + N`.
+- **Déclenchement par le bord.** Laissez la souris au milieu du bord droit de l’écran ou appuyez sur `Ctrl + Alt + N`. Vous préférez le bord gauche ? Paramètres → Ouverture → Bord de l’écran.
 - **Deux niveaux d’onglets.** Les sujets en haut, les notes à gauche. Colorez, renommez, réorganisez.
 - **Des notes qui s’enregistrent seules.** Aucun bouton Enregistrer.
 - **Images.** Glisser-déposer, coller avec `Ctrl + V` ou clic droit → Ajouter une image.
 - **Audio et notes vocales.** Déposez des fichiers audio ou enregistrez au micro avec une forme d’onde en direct.
 - **Cartes YouTube.** Collez un lien YouTube : il devient une carte avec miniature et titre.
+- **Cases à cocher.** Pendant la saisie, un clic transforme les lignes en cases ☐ ; un clic sur la case la coche.
+- **Mises à jour automatiques.** La version téléchargée vous prévient quand une nouvelle version sort et l’installe en un clic (la version Store se met à jour via le Store).
 - **10 langues.** Suit automatiquement la langue de Windows.
 - **Masquer lors du partage d’écran.** Un interrupteur, et Sill Note disparaît des enregistrements d’écran, du partage d’écran (Zoom, Teams, Discord, OBS) et des captures — tout en restant visible pour vous.
 - **Opacité.** Rendez le fond du panneau transparent (60–100 %) ; texte et images restent nets.
@@ -29,6 +31,7 @@ Amenez la souris sur le bord droit : un panneau glisse par-dessus toutes les fen
 |---|---|
 | ![](screenshots/02-media.png) | ![](screenshots/03-voice.png) |
 | ![](screenshots/04-tabs.png) | ![](screenshots/05-private.png) |
+| ![](screenshots/06-checklist.png) | ![](screenshots/07-left-edge.png) |
 
 ## Installation
 
@@ -36,7 +39,7 @@ Téléchargez `SillNote-Setup.exe` depuis [Releases](../../releases/latest) et l
 
 ## Confidentialité
 
-Vos notes, images, audios et paramètres restent uniquement sur votre ordinateur. Sill Note ne se connecte qu’en un seul cas : quand vous collez un lien YouTube, il télécharge une fois la miniature et le titre (désactivable dans Paramètres → Confidentialité). Le micro n’est utilisé que pendant l’enregistrement. [Politique de confidentialité](https://www.sillnote.store/privacy.html)
+Vos notes, images, audios et paramètres restent uniquement sur votre ordinateur. Sill Note ne se connecte que dans deux cas, tous deux désactivables dans Paramètres → Confidentialité : quand vous collez un lien YouTube, il télécharge une fois la miniature et le titre ; et la version téléchargée demande une fois par jour à GitHub si une nouvelle version existe (la version Microsoft Store, non). Vos notes ne sont jamais envoyées. Le micro n’est utilisé que pendant l’enregistrement. [Politique de confidentialité](https://www.sillnote.store/privacy.html)
 
 ## Soutenir
 

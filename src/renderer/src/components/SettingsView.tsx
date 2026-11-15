@@ -1,13 +1,15 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { LayoutGroup, motion } from 'framer-motion'
 import { ChevronDown, ChevronLeft, Coffee, ExternalLink, FolderOpen } from 'lucide-react'
-import { formatShortcut, LIMITS, type Settings, type ThemeMode } from '../../../shared/settings'
+import { formatShortcut, LIMITS, type Settings } from '../../../shared/settings'
 import { springSnappy } from '../motion'
 // Sadece sürüm numarası: package.json'ın tamamı programın içine gömülmesin.
 import { version } from '../../../../package.json'
 import { COPYRIGHT } from '../../../shared/app'
-import { LANGS, type LangPref } from '../../../shared/i18n'
+import { LANGS, type LangPref, type Translate } from '../../../shared/i18n'
+import type { UpdateState } from '../../../shared/update'
 import { setLanguagePref, useI18n } from '../i18n'
+import { useUpdateState } from '../update'
 import styles from './SettingsView.module.css'
 
 interface Props {
@@ -24,6 +26,7 @@ export function SettingsView({ onClose, onChange }: Props) {
   const [isStore, setIsStore] = useState(false)
   const [layoutGroupId] = useState(() => crypto.randomUUID())
   const { t, locale } = useI18n()
+  const upd = useUpdateState()
 
   useEffect(() => {
     window.settings.get().then((r) => {
@@ -67,6 +70,7 @@ export function SettingsView({ onClose, onChange }: Props) {
             <Group title={t('settings.appearance')}>
               <Row label={t('settings.theme')}>
                 <Segmented
+                  pillId="themePill"
                   value={settings.theme}
                   options={[
                     ['system', t('settings.themeSystem')],
@@ -108,6 +112,17 @@ export function SettingsView({ onClose, onChange }: Props) {
             </Group>
 
             <Group title={t('settings.opening')} footnote={t('settings.pauseFullscreenNote')}>
+              <Row label={t('settings.side')}>
+                <Segmented
+                  pillId="sidePill"
+                  value={settings.side}
+                  options={[
+                    ['left', t('settings.sideLeft')],
+                    ['right', t('settings.sideRight')]
+                  ]}
+                  onChange={(side) => update({ side })}
+                />
+              </Row>
               <SliderRow
                 label={t('settings.trigger')}
                 hint={t('settings.triggerHint')}
@@ -115,7 +130,7 @@ export function SettingsView({ onClose, onChange }: Props) {
                 display={new Intl.NumberFormat(locale, { style: 'percent' }).format(settings.triggerZone)}
                 {...LIMITS.triggerZone}
                 onChange={(triggerZone) => update({ triggerZone })}
-                extra={<ZonePreview zone={settings.triggerZone} />}
+                extra={<ZonePreview zone={settings.triggerZone} side={settings.side} />}
               />
               <SliderRow
                 label={t('settings.delay')}
@@ -171,7 +186,11 @@ export function SettingsView({ onClose, onChange }: Props) {
 
             <Group
               title={t('settings.privacy')}
-              footnote={[t('settings.privacyNote'), t('settings.hideFromCaptureNote')]}
+              footnote={[
+                t('settings.privacyNote'),
+                t('settings.hideFromCaptureNote'),
+                ...(upd.mode !== 'off' ? [t('settings.checkUpdatesNote')] : [])
+              ]}
             >
               <Row label={t('settings.linkPreviews')}>
                 <Toggle checked={settings.linkPreviews} onChange={(linkPreviews) => update({ linkPreviews })} />
@@ -182,6 +201,29 @@ export function SettingsView({ onClose, onChange }: Props) {
                   onChange={(hideFromCapture) => update({ hideFromCapture })}
                 />
               </Row>
+              {/* Mağaza sürümünde yok: onu mağaza günceller. */}
+              {upd.mode !== 'off' && (
+                <>
+                  <Row label={t('settings.checkUpdates')}>
+                    <Toggle checked={settings.checkUpdates} onChange={(checkUpdates) => update({ checkUpdates })} />
+                  </Row>
+                  <Row label={updateLabel(upd, t, version)}>
+                    {upd.status === 'available' ? (
+                      <button className={styles.button} onClick={() => window.updates.download()}>
+                        {upd.mode === 'notify' ? t('update.download') : t('update.install')}
+                      </button>
+                    ) : (
+                      <button
+                        className={styles.button}
+                        disabled={upd.status === 'checking' || upd.status === 'downloading' || upd.status === 'downloaded'}
+                        onClick={() => void window.updates.check()}
+                      >
+                        {t('settings.checkNow')}
+                      </button>
+                    )}
+                  </Row>
+                </>
+              )}
             </Group>
 
             <Group title={t('settings.support')} footnote={t('settings.supportNote')}>
@@ -278,20 +320,23 @@ function SliderRow({ label, hint, value, display, min, max, step, onChange, extr
   )
 }
 
-function Segmented({
+/** `pillId`: her segmentli düğmenin kayan hapı ayrı olmalı, yoksa haplar düğmeler arasında uçar. */
+function Segmented<T extends string>({
+  pillId,
   value,
   options,
   onChange
 }: {
-  value: ThemeMode
-  options: [ThemeMode, string][]
-  onChange: (v: ThemeMode) => void
+  pillId: string
+  value: T
+  options: [T, string][]
+  onChange: (v: T) => void
 }) {
   return (
     <div className={styles.segmented}>
       {options.map(([v, label]) => (
         <button key={v} className={`${styles.segment} ${v === value ? styles.segmentActive : ''}`} onClick={() => onChange(v)}>
-          {v === value && <motion.div layoutId="themePill" className={styles.segmentPill} transition={springSnappy} />}
+          {v === value && <motion.div layoutId={pillId} className={styles.segmentPill} transition={springSnappy} />}
           <span>{label}</span>
         </button>
       ))}
@@ -321,14 +366,34 @@ function Toggle({
   )
 }
 
-/** Tetik bölgesinin minik ekran çizimi: sağ kenardaki kırmızı çizgi bölge kadar uzar. */
-function ZonePreview({ zone }: { zone: number }) {
+/** Ayarlardaki sürüm satırı: "Sürüm 1.5.0" ya da denetimin sonucu. */
+function updateLabel(u: UpdateState, t: Translate, current: string): string {
+  switch (u.status) {
+    case 'checking':
+      return t('update.checking')
+    case 'latest':
+      return t('update.latest')
+    case 'available':
+      return t('update.available', { version: u.version ?? '' })
+    case 'downloading':
+      return t('update.downloading', { percent: `${u.percent ?? 0}%` })
+    case 'downloaded':
+      return t('update.installing')
+    case 'error':
+      return u.errorPhase === 'download' ? t('update.failed') : t('update.checkFailed')
+    default:
+      return t('update.current', { version: current })
+  }
+}
+
+/** Tetik bölgesinin minik ekran çizimi: seçili kenardaki kırmızı çizgi bölge kadar uzar. */
+function ZonePreview({ zone, side }: { zone: number; side: Settings['side'] }) {
   const h = 34
   const barH = h * zone
   return (
     <svg className={styles.zone} width="54" height={h + 2} viewBox={`0 0 54 ${h + 2}`} aria-hidden>
       <rect x="1" y="1" width="52" height={h} rx="3" className={styles.zoneScreen} />
-      <rect x="49" y={1 + (h - barH) / 2} width="3" height={barH} rx="1.5" className={styles.zoneBar} />
+      <rect x={side === 'left' ? 2 : 49} y={1 + (h - barH) / 2} width="3" height={barH} rx="1.5" className={styles.zoneBar} />
     </svg>
   )
 }

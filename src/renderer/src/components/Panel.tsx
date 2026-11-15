@@ -9,7 +9,9 @@ import { ConfirmDialog, type ConfirmRequest } from './ConfirmDialog'
 import { ContextMenuHost } from './ContextMenu'
 import { SettingsView } from './SettingsView'
 import { Resizer } from './Resizer'
-import { LIMITS, DEFAULT_SETTINGS, type Settings } from '../../../shared/settings'
+import { UpdateBanner } from './UpdateBanner'
+import { WhatsNew } from './WhatsNew'
+import { LIMITS, DEFAULT_SETTINGS, type PanelSide, type Settings } from '../../../shared/settings'
 import resizerStyles from './Resizer.module.css'
 import { isTabColor } from '../../../shared/notes'
 import styles from './Panel.module.css'
@@ -30,6 +32,11 @@ interface Props {
   onToggleSubtabs: () => void
   /** Zeminin opaklığı (0.6–1). */
   opacity: number
+  /** Panelin yaşadığı kenar. Solda her şey aynalanır: kayma yönü, gölge payı, sütun, tutamaklar. */
+  side: PanelSide
+  /** Güncellemeden sonraki ilk açılış: yenilikler kartı (null = gösterme). */
+  whatsNew: { version: string; isStore: boolean } | null
+  onWhatsNewDone: () => void
   onSettingsChange: (s: Settings) => void
 }
 
@@ -46,6 +53,9 @@ export function Panel({
   subtabsHidden,
   onToggleSubtabs,
   opacity,
+  side,
+  whatsNew,
+  onWhatsNewDone,
   onSettingsChange
 }: Props) {
   const { activeTab, actions } = useNotes()
@@ -57,17 +67,20 @@ export function Panel({
   const [layoutGroupId] = useState(() => crypto.randomUUID())
   const panelRef = useRef<HTMLDivElement>(null)
   // Tanınmayan renk (ör. daha yeni bir sürümden) → renksiz göster.
+  // Panel ekranın dışına doğru kayar: sağdaysa sağa, soldaysa sola.
+  const offX = side === 'left' ? '-108%' : '108%'
   const color = activeTab && isTabColor(activeTab.color) ? activeTab.color : undefined
 
   return (
     <motion.div
       ref={panelRef}
       className={`${styles.panel} ${settingsOpen ? styles.underSettings : ''}`}
+      data-side={side}
       style={{
         ['--subtab-width' as string]: `${subtabWidth}px`,
         ['--panel-alpha' as string]: `${Math.round(opacity * 100)}%`
       }}
-      initial={{ x: '108%', opacity: 0.4, scale: 0.98 }}
+      initial={{ x: offX, opacity: 0.4, scale: 0.98 }}
       animate={{
         x: 0,
         opacity: 1,
@@ -75,7 +88,7 @@ export function Panel({
         transition: springPanel
       }}
       exit={{
-        x: '108%',
+        x: offX,
         opacity: 0.4,
         scale: 0.98,
         transition: { duration: 0.24, ease: [0.4, 0, 1, 1] }
@@ -92,7 +105,12 @@ export function Panel({
             onTogglePin={onTogglePin}
             subtabsHidden={subtabsHidden}
             onToggleSubtabs={onToggleSubtabs}
+            side={side}
           />
+
+          <div className={styles.updateSlot}>
+            <UpdateBanner />
+          </div>
 
           {activeTab ? (
             <div className={styles.body} data-color={color}>
@@ -120,6 +138,8 @@ export function Panel({
                   min={LIMITS.subtabWidth.min}
                   max={LIMITS.subtabWidth.max}
                   reset={DEFAULT_SETTINGS.subtabWidth}
+                  /* Sütun sağdaysa (aynalı) sola sürükleyince genişler. */
+                  invert={side === 'left'}
                   onChange={onSubtabWidth}
                   onDragging={setResizing}
                 />
@@ -137,7 +157,8 @@ export function Panel({
         </LayoutGroup>
       </ContextMenuHost>
 
-      {/* Panelin sol kenarı: sola sürükleyince panel genişler, pencere de onunla büyür.
+      {/* Panelin ekranın ortasına bakan kenarı (sağdaysa sol, soldaysa sağ kenar): dışa doğru
+          sürükleyince panel genişler, pencere de onunla büyür.
           Ayarlar ekranı açıkken gizli — ekran panelin üstünü kaplıyor, altındaki şeride
           denk gelen sürükleme kafa karıştırırdı. */}
       {!settingsOpen && (
@@ -148,7 +169,7 @@ export function Panel({
           min={LIMITS.panelWidth.min}
           max={LIMITS.panelWidth.max}
           reset={DEFAULT_SETTINGS.panelWidth}
-          invert
+          invert={side !== 'left'}
           onChange={onPanelWidth}
           onCommit={onPanelWidthCommit}
           onDragging={setResizing}
@@ -157,6 +178,12 @@ export function Panel({
 
       <AnimatePresence>
         {settingsOpen && <SettingsView key="settings" onClose={() => onSettingsOpenChange(false)} onChange={onSettingsChange} />}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {whatsNew && !settingsOpen && !confirm && (
+          <WhatsNew key="whatsnew" version={whatsNew.version} isStore={whatsNew.isStore} onClose={onWhatsNewDone} />
+        )}
       </AnimatePresence>
 
       <AnimatePresence>

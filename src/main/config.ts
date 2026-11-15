@@ -7,11 +7,11 @@ export const PANEL = {
   heightRatio: 0.85, // çalışma alanı yüksekliğinin ne kadarını kaplasın
   // Pencere, gölgenin sığması için panelden biraz büyük ve şeffaf.
   // Bu değerler renderer'daki --panel-pad-* CSS değişkenleriyle AYNI olmalı.
-  padShadow: 28, // üst, alt ve sol şeffaf pay
-  padEdge: 8 // panel ile ekranın sağ kenarı arasındaki boşluk
+  padShadow: 28, // üst, alt ve ekranın ortasına bakan taraftaki şeffaf pay
+  padEdge: 8 // panel ile ekran kenarı arasındaki boşluk
 }
 
-export const TRIGGER_EDGE_PX = 2 // ekranın en sağındaki kaç piksel tetik sayılır
+export const TRIGGER_EDGE_PX = 2 // ekranın en kenarındaki kaç piksel tetik sayılır
 export const CLOSE_DELAY_MS = 400 // mouse panelden çıktıktan sonra kapanmadan önce bekleme
 export const POLL_MS = 33 // mouse konumunu kontrol sıklığı (~30 kez/sn)
 export const EXIT_FALLBACK_MS = 700 // kapanış animasyonu haber vermezse yine de gizle

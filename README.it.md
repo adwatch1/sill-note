@@ -13,12 +13,14 @@ Porta il mouse sul bordo destro e un pannello scivola sopra qualsiasi finestra. 
 
 ## Funzioni
 
-- **Attivazione dal bordo.** Lascia il mouse al centro del bordo destro dello schermo o premi `Ctrl + Alt + N`.
+- **Attivazione dal bordo.** Lascia il mouse al centro del bordo destro dello schermo o premi `Ctrl + Alt + N`. Preferisci il bordo sinistro? Impostazioni → Apertura → Bordo dello schermo.
 - **Due livelli di schede.** Argomenti in alto, note a sinistra. Colora, rinomina, riordina.
 - **Note che si salvano da sole.** Nessun pulsante Salva.
 - **Immagini.** Trascina e rilascia, incolla con `Ctrl + V` o clic destro → Aggiungi immagine.
 - **Audio e note vocali.** Rilascia file audio o registra dal microfono con forma d’onda dal vivo.
 - **Schede YouTube.** Incolla un link di YouTube e diventa una scheda con miniatura e titolo.
+- **Caselle di controllo.** Mentre scrivi, un clic trasforma le righe in caselle ☐; un clic sulla casella la spunta.
+- **Aggiornamenti automatici.** La versione scaricata ti avvisa quando esce una nuova versione e la installa con un clic (la versione dello Store si aggiorna dallo Store).
 - **10 lingue.** Segue automaticamente la lingua di Windows.
 - **Nascondi durante la condivisione schermo.** Un interruttore e Sill Note sparisce da registrazioni dello schermo, condivisione (Zoom, Teams, Discord, OBS) e screenshot, mentre tu continui a vederlo.
 - **Opacità.** Rendi trasparente lo sfondo del pannello (60–100%); testo e immagini restano nitidi.
@@ -29,6 +31,7 @@ Porta il mouse sul bordo destro e un pannello scivola sopra qualsiasi finestra. 
 |---|---|
 | ![](screenshots/02-media.png) | ![](screenshots/03-voice.png) |
 | ![](screenshots/04-tabs.png) | ![](screenshots/05-private.png) |
+| ![](screenshots/06-checklist.png) | ![](screenshots/07-left-edge.png) |
 
 ## Installazione
 
@@ -36,7 +39,7 @@ Scarica `SillNote-Setup.exe` da [Releases](../../releases/latest) ed eseguilo (n
 
 ## Privacy
 
-Note, immagini, audio e impostazioni restano solo sul tuo computer. Sill Note va online in un solo caso: quando incolli un link di YouTube scarica una volta miniatura e titolo (disattivabile in Impostazioni → Privacy). Il microfono è usato solo durante la registrazione. [Informativa sulla privacy](https://www.sillnote.store/privacy.html)
+Note, immagini, audio e impostazioni restano solo sul tuo computer. Sill Note va online solo in due casi, entrambi disattivabili in Impostazioni → Privacy: quando incolli un link di YouTube scarica una volta miniatura e titolo, e la versione scaricata chiede a GitHub una volta al giorno se c’è una nuova versione (quella del Microsoft Store no). Le tue note non vengono mai inviate. Il microfono è usato solo durante la registrazione. [Informativa sulla privacy](https://www.sillnote.store/privacy.html)
 
 ## Supporta
 

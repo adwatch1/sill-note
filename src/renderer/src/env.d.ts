@@ -1,5 +1,5 @@
 /// <reference types="vite/client" />
-import type { MediaApi, NotesApi, PanelApi, SettingsApi } from '../../preload'
+import type { MediaApi, NotesApi, PanelApi, SettingsApi, UpdatesApi } from '../../preload'
 
 declare global {
   interface Window {
@@ -7,5 +7,6 @@ declare global {
     notes: NotesApi
     settings: SettingsApi
     media: MediaApi
+    updates: UpdatesApi
   }
 }

@@ -215,15 +215,16 @@ export function applyContentProtection(): void {
   if (alive(win)) win.setContentProtection(getSettings().hideFromCapture)
 }
 
-// Pencereyi birincil monitörün sağ kenarına, dikeyde ortalı yerleştir.
+// Pencereyi birincil monitörün seçili kenarına (sağ/sol), dikeyde ortalı yerleştir.
 export function positionWindow(): void {
   if (!alive(win)) return
   const area = screen.getPrimaryDisplay().workArea // görev çubuğu hariç alan
+  const { panelWidth, side } = getSettings()
   const panelHeight = Math.round(area.height * PANEL.heightRatio)
-  const width = PANEL.padShadow + getSettings().panelWidth + PANEL.padEdge
+  const width = PANEL.padShadow + panelWidth + PANEL.padEdge
   const height = panelHeight + PANEL.padShadow * 2
   win.setBounds({
-    x: area.x + area.width - width,
+    x: side === 'left' ? area.x : area.x + area.width - width,
     y: area.y + Math.round((area.height - height) / 2),
     width,
     height
@@ -291,7 +292,7 @@ export function openSettingsView(): void {
 }
 
 /**
- * Kurulumdan sonraki ilk açılış: panel sağdan kayıp gelir, birkaç saniye durur, geri çekilir.
+ * Kurulumdan sonraki ilk açılış: panel kenardan kayıp gelir, birkaç saniye durur, geri çekilir.
  * Odağı çalmaz (kullanıcı ne yapıyorsa devam etsin). Gözcü bu sırada paneli kapatmasın diye
  * bastırma sayacı kullanılır — fare kenarda olmadığı için normalde 400 ms sonra kapanırdı.
  */
@@ -354,10 +355,14 @@ function watchCursor(): void {
       return
     }
     const d = screen.getPrimaryDisplay().bounds
-    const { triggerZone, dwellMs } = getSettings()
+    const { triggerZone, dwellMs, side } = getSettings()
+    // Ekranın en sol pikseli d.x, en sağ pikseli d.x + d.width - 1.
+    const atEdge =
+      side === 'left'
+        ? p.x >= d.x && p.x < d.x + TRIGGER_EDGE_PX
+        : p.x >= d.x + d.width - TRIGGER_EDGE_PX && p.x <= d.x + d.width
     const inZone =
-      p.x >= d.x + d.width - TRIGGER_EDGE_PX &&
-      p.x <= d.x + d.width &&
+      atEdge &&
       p.y >= d.y + (d.height * (1 - triggerZone)) / 2 &&
       p.y <= d.y + (d.height * (1 + triggerZone)) / 2
 
